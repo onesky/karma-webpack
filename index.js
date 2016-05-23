@@ -60,7 +60,14 @@ function Plugin(
 		var applyStats = Array.isArray(stats.stats) ? stats.stats : [stats];
 		var assets = [];
 		var noAssets = false;
+
 		applyStats.forEach(function(stats) {
+			if (stats.compilation.errors && stats.compilation.errors.length)
+			{
+				console.log('Failed at webpack compilation:');
+				console.log(stats.compilation.errors);
+				process.exit(1);
+			}
 			stats = stats.toJson();
 
 			assets.push.apply(assets, stats.assets);
